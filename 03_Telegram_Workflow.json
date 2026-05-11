@@ -1,0 +1,791 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "options": {
+          "temperature": 0
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        336,
+        192
+      ],
+      "id": "c9451058-e0d2-4d7e-81aa-dc774f6a1587",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "4NxvLUWIqrmjOmuP",
+          "name": "Google Gemini(PaLM) Api account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=# Role\nأنت صيدلاني مساعد محترف، ودود، وخبير تعمل في صيدلية.\n\nمهمتك هي مساعدة المرضى الذين يرسلون صوراً لوصفاتهم الطبية (روشتات) أو صوراً لعلب الأدوية.\n\n---\n\n# Instructions\n\nيجب عليك اتباع الخطوات التالية بدقة وبنفس الترتيب:\n\n## 1. رد السلام والترحيب\nابدأ رسالتك دائماً برد السلام والترحيب بأسلوب لطيف.\n\n---\n\n## 2. قراءة الوصفة الطبية (الصورة)\nاستخرج أسماء الأدوية بدقة من الصورة.\n\n---\n\n## 3. تحذير طبي هام\nإذا كانت غير واضحة:\n- لا تخمن\n- اطلب صورة أوضح\n\n---\n\n## 4. البحث في المخزون\nتحقق لكل دواء:\n- التوفر\n- السعر بالدينار الاردني\n- الكمية\n\n---\n\n## 5. البدائل\nإذا غير متوفر:\n- اقترح بديل بنفس المادة الفعالة ونفس التركيز\n\n---\n\n## 6. ⚠️ فحص تعارض الأدوية (إضافة جديدة)\nإذا احتوت الوصفة على أكثر من دواء:\n- تحقق إن كانت الأدوية لعلاجات مختلفة أو قد تتعارض\n- إذا كان هناك احتمال تعارض:\n  - نبه المستخدم بلطف\n  - واطلب التأكد من الطبيب أو الصيدلي\n\n---\n\n## 7. 💊 اقتراح أدوية (إضافة جديدة)\nإذا احتوت الصورة على:\n- وصف أعراض (مثل صداع، حرارة، ألم)\n\nقم باقتراح أدوية مناسبة شائعة وآمنة بدون وصفة  \nمع توضيح أنها استشارة مبدئية\n\n---\n\n## 8. صياغة الرد النهائي\n- اذكر الأدوية المقروءة\n- المتوفر + السعر\n- غير المتوفر + البدائل\n- التنبيهات (إن وجدت)\n\n---\n\n## ملاحظة\n- لا تذكر تفاصيل تقنية\n- كن مختصر وإنساني\n\n---\n\n# Input\n{{ $json.body.imageBase64 }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        512,
+        -64
+      ],
+      "id": "09966722-3cb6-4cee-ba06-1996bd2139ad",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {
+          "temperature": 0
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        608,
+        1184
+      ],
+      "id": "f5fb3c6a-f0b5-47e7-94db-ba89aa01f6ff",
+      "name": "Google Gemini Chat Model1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "IIP6RUdfeLYGswBa",
+          "name": "HW1"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=# Role\nأنت صيدلاني مساعد محترف، ودود، وخبير تعمل في صيدلية.\n\n---\n\n# Instructions\n\n## 1. الترحيب\nابدأ برسالة لطيفة ✨\n\n---\n\n## 2. فهم الطلب\nاستخرج:\n- اسم الدواء\n- أو الأعراض\n\n---\n\n## 3. البحث\nتحقق من:\n- التوفر\n- السعر بالدينار الاردني\n\n---\n\n## 4. البدائل\nإذا غير متوفر:\n- اقترح بديل بنفس المادة الفعالة 🌿\n\n---\n\n## 5. 💊 اقتراح أدوية (إضافة)\nإذا المستخدم ذكر أعراض مثل:\n- صداع 🤕\n- ألم\n- حرارة\n\nاقترح أدوية مناسبة بدون وصفة  \nمع توضيح أنها استشارة مبدئية\n\n---\n\n## 6. ⚠️ تعارض الأدوية (إضافة)\nإذا المستخدم ذكر أكثر من دواء:\n- تحقق من التعارض\n- نبه المستخدم بلطف ⚠️\n\n---\n\n## 7. صياغة الرد\n\n### إذا متوفر:\n- اسم الدواء (Bold)\n- السعر\n\n### إذا غير متوفر:\n- اعتذار\n- بديل\n\n### إذا أعراض:\n- اقتراح أدوية\n\n---\n\n## ملاحظات\n- لا تذكر الكمية\n- لا تذكر تفاصيل تقنية\n\n---\n\n# Input\n{{ $json.message.text }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        720,
+        912
+      ],
+      "id": "bbdf83b4-9bdf-4173-b690-849b2959a9ef",
+      "name": "AI Agent1"
+    },
+    {
+      "parameters": {
+        "options": {
+          "temperature": 0
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        736,
+        704
+      ],
+      "id": "c4a50be2-5cfc-4d89-ac34-31cfeded1cef",
+      "name": "Google Gemini Chat Model2",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "XNlylIBupFa9ZAmS",
+          "name": "n8n1"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=# Role\nأنت صيدلاني مساعد محترف، ودود، وخبير.\n\n---\n\n# Instructions\n\n## 1. فهم النص\nاستخرج اسم الدواء أو الأعراض من النص.\n\n---\n\n## 2. تحذير\nإذا غير واضح:\n- لا تخمن\n- اطلب إعادة التوضيح\n\n---\n\n## 3. البحث\nتحقق من:\n- التوفر\n- السعر بالدينار الاردني\n\n---\n\n## 4. البدائل\nإذا غير متوفر:\n- اقترح بديل بنفس المادة الفعالة\n\n---\n\n## 5. 💊 اقتراح أدوية (إضافة)\nإذا المستخدم وصف أعراض مثل:\n- صداع\n- ألم\n- حرارة\n\nاقترح أدوية مناسبة بدون وصفة\n\n---\n\n## 6. ⚠️ تعارض الأدوية (إضافة)\nإذا ذكر أكثر من دواء:\n- تحقق من احتمال التعارض\n- نبه المستخدم بشكل لطيف\n\n---\n\n## 7. الرد الصوتي\n\n- بدون رموز\n- بدون إيموجي\n- الأرقام بالحروف\n\n---\n\n## 8. طريقة الرد\n- ترحيب\n- نتيجة\n- بدائل أو اقتراحات\n- تنبيه إن وجد\n- ختام صحي\n\n---\n\n# Input\n{{ $json.words.map(word => word.text).join(\"\") }}",
+        "options": {
+          "passthroughBinaryImages": true
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        848,
+        448
+      ],
+      "id": "2fe430f9-e68a-463e-8a34-d831d5f97dd9",
+      "name": "AI Agent2"
+    },
+    {
+      "parameters": {
+        "description": "استخدم هذه الأداة عندما يسأل العميل عن دواء معين. هذه الأداة ستبحث في قاعدة بيانات الصيدلية، وتخبرك ما إذا كان الدواء متوفراً، وكم سعره. يجب عليك تمرير اسم الدواء الذي ذكره العميل إلى هذه الأداة\nYou must pass the medicine name as a parameter named 'query' .",
+        "workflowId": {
+          "__rl": true,
+          "value": "bxw03rPVrhREh9u3",
+          "mode": "id",
+          "cachedResultUrl": "/workflow/bxw03rPVrhREh9u3"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "query": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('query', ``, 'string') }}"
+          },
+          "matchingColumns": [
+            "query"
+          ],
+          "schema": [
+            {
+              "id": "query",
+              "displayName": "query",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        768,
+        176
+      ],
+      "id": "a3729865-6cd0-456a-b0de-f1c5a2cce9dc",
+      "name": "search_medicine_database"
+    },
+    {
+      "parameters": {
+        "description": "استخدم هذه الأداة عندما يسأل العميل عن دواء معين. هذه الأداة ستبحث في قاعدة بيانات الصيدلية، وتخبرك ما إذا كان الدواء متوفراً، وكم سعره. يجب عليك تمرير اسم الدواء الذي ذكره العميل إلى هذه الأداة\nYou must pass the medicine name as a parameter named 'query' .",
+        "workflowId": {
+          "__rl": true,
+          "value": "bxw03rPVrhREh9u3",
+          "mode": "id",
+          "cachedResultUrl": "/workflow/bxw03rPVrhREh9u3"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "query": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('query', ``, 'string') }}"
+          },
+          "matchingColumns": [
+            "query"
+          ],
+          "schema": [
+            {
+              "id": "query",
+              "displayName": "query",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        1120,
+        720
+      ],
+      "id": "dc28acb9-d556-4cd8-a7da-d57ef519f9fb",
+      "name": "search_medicine_database1"
+    },
+    {
+      "parameters": {
+        "description": "استخدم هذه الأداة عندما يسأل العميل عن دواء معين. هذه الأداة ستبحث في قاعدة بيانات الصيدلية، وتخبرك ما إذا كان الدواء متوفراً، وكم سعره. يجب عليك تمرير اسم الدواء الذي ذكره العميل إلى هذه الأداة\nYou must pass the medicine name as a parameter named 'query' .",
+        "workflowId": {
+          "__rl": true,
+          "value": "bxw03rPVrhREh9u3",
+          "mode": "id",
+          "cachedResultUrl": "/workflow/bxw03rPVrhREh9u3"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "query": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('query', ``, 'string') }}"
+          },
+          "matchingColumns": [
+            "query"
+          ],
+          "schema": [
+            {
+              "id": "query",
+              "displayName": "query",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        1008,
+        1184
+      ],
+      "id": "4b056ae0-0f90-4576-b580-bc7bf78b9d35",
+      "name": "search_medicine_database2"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('Telegram Trigger2').item.json.message.from.id }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        576,
+        192
+      ],
+      "id": "9abeffee-e23c-46e9-9a04-a3cb7158b44e",
+      "name": "Simple Memory",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "fileId": "={{ $json.message.voice.file_id }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        352,
+        448
+      ],
+      "id": "7e2dae28-e378-4dd1-bdfe-90676085d581",
+      "name": "Get a file",
+      "webhookId": "2274d2e5-0db7-424a-a175-704e69aedabc",
+      "credentials": {
+        "telegramApi": {
+          "id": "1FZtuY9pk9EGqZCH",
+          "name": "pharmacy"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "speech",
+        "operation": "speechToText",
+        "additionalOptions": {},
+        "requestOptions": {}
+      },
+      "type": "@elevenlabs/n8n-nodes-elevenlabs.elevenLabs",
+      "typeVersion": 1,
+      "position": [
+        560,
+        448
+      ],
+      "id": "d955a088-11da-4235-8af4-c9c6634e1f65",
+      "name": "Transcribe audio or video",
+      "credentials": {
+        "elevenLabsApi": {
+          "id": "PRQA2PmcFSNhfMRt",
+          "name": "osa"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "speech",
+        "voice": {
+          "__rl": true,
+          "value": "hpp4J3VqNfWAUOO0d1Us",
+          "mode": "list",
+          "cachedResultName": "Bella - Professional, Bright, Warm"
+        },
+        "text": "={{ $json.output }}",
+        "additionalOptions": {
+          "model": {
+            "mode": "list",
+            "value": "eleven_multilingual_v2"
+          }
+        },
+        "requestOptions": {}
+      },
+      "type": "@elevenlabs/n8n-nodes-elevenlabs.elevenLabs",
+      "typeVersion": 1,
+      "position": [
+        1200,
+        448
+      ],
+      "id": "ff3c46d4-33da-407c-a3bb-5196fe08969e",
+      "name": "Convert text to speech",
+      "credentials": {
+        "elevenLabsApi": {
+          "id": "PRQA2PmcFSNhfMRt",
+          "name": "osa"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "sendAudio",
+        "chatId": "5037830415",
+        "binaryData": true,
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1440,
+        448
+      ],
+      "id": "31068c1d-6b37-4cc0-acac-7b800ed5bfea",
+      "name": "Send an audio file",
+      "webhookId": "eed3b46e-76d5-48eb-b2db-3985599e2aee",
+      "credentials": {
+        "telegramApi": {
+          "id": "1FZtuY9pk9EGqZCH",
+          "name": "pharmacy"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger2').item.json.message.from.id }}",
+        "text": "={{ $('AI Agent').item.json.output }}",
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        960,
+        -64
+      ],
+      "id": "6bdef21c-4f8b-4456-9245-87b879d27ef4",
+      "name": "Send a text message",
+      "webhookId": "98f549b4-3e70-4482-a213-da4385f451b0",
+      "credentials": {
+        "telegramApi": {
+          "id": "1FZtuY9pk9EGqZCH",
+          "name": "pharmacy"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger2').first().json.message.from.id }}",
+        "text": "={{ $('AI Agent1').item.json.output }}",
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1152,
+        912
+      ],
+      "id": "1ea9d848-31f6-4732-9445-7745191c6c9d",
+      "name": "Send a text message1",
+      "webhookId": "98f549b4-3e70-4482-a213-da4385f451b0",
+      "credentials": {
+        "telegramApi": {
+          "id": "1FZtuY9pk9EGqZCH",
+          "name": "pharmacy"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -688,
+        448
+      ],
+      "id": "983df70f-4637-4329-85b6-5cff3d0f100c",
+      "name": "Telegram Trigger2",
+      "webhookId": "49af01df-cb78-402c-a7e5-fc47a930d806",
+      "credentials": {
+        "telegramApi": {
+          "id": "1FZtuY9pk9EGqZCH",
+          "name": "pharmacy"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "56771d3c-5171-4a15-9ac0-461d2aab6324",
+              "leftValue": "={{ $json.message.photo }}",
+              "rightValue": "imageMessage",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -336,
+        448
+      ],
+      "id": "82839e4d-52d9-4ecd-a4fb-185f7348d6bc",
+      "name": "If2"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "1d274fcc-87e1-4a50-becf-b6018818e909",
+              "leftValue": "={{ $json.message.voice }}",
+              "rightValue": "audioMessage",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "bc841a80-21a1-400a-b6d9-102bde02dea7",
+              "leftValue": "={{ $json.message.audio }}",
+              "rightValue": "pttMessage",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -32,
+        608
+      ],
+      "id": "2d8d0d72-3f7a-43c6-ba57-8bfaffc3ad32",
+      "name": "If3"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('Telegram Trigger2').item.json.message.from.id }}",
+        "contextWindowLength": "=5"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        928,
+        736
+      ],
+      "id": "5b0ee8df-da95-4d28-a150-d84eca87da79",
+      "name": "Simple Memory1",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $json.message.from.id }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        816,
+        1216
+      ],
+      "id": "bc2b611c-44db-4274-99d1-1e144c92a046",
+      "name": "Simple Memory2",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "fileId": "={{ $json.message.photo[$json.message.photo.length - 1].file_id }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        128,
+        -16
+      ],
+      "id": "b0fd1a51-244e-459d-802c-cc7f1e8dbe2b",
+      "name": "Get a file1",
+      "webhookId": "2274d2e5-0db7-424a-a175-704e69aedabc",
+      "credentials": {
+        "telegramApi": {
+          "id": "1FZtuY9pk9EGqZCH",
+          "name": "pharmacy"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent1": {
+      "main": [
+        [
+          {
+            "node": "Send a text message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent2",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent2": {
+      "main": [
+        [
+          {
+            "node": "Convert text to speech",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "search_medicine_database": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "search_medicine_database1": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent2",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "search_medicine_database2": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get a file": {
+      "main": [
+        [
+          {
+            "node": "Transcribe audio or video",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Transcribe audio or video": {
+      "main": [
+        [
+          {
+            "node": "AI Agent2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert text to speech": {
+      "main": [
+        [
+          {
+            "node": "Send an audio file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telegram Trigger2": {
+      "main": [
+        [
+          {
+            "node": "If2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If2": {
+      "main": [
+        [
+          {
+            "node": "Get a file1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "If3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If3": {
+      "main": [
+        [
+          {
+            "node": "Get a file",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "AI Agent1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory1": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent2",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory2": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get a file1": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "8b1e028e44daeb65f7dfb578f45f4539309ead1234e4a014a3ec9a64f64ba60f"
+  }
+}
