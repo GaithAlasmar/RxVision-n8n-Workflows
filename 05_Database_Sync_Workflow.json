@@ -1,0 +1,61 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "query"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "d659ba98-4747-4972-88c8-31474faf779b",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT [NameEn], [NameAr], [Price], [IsAvailable] \nFROM [pharmacy_db].[dbo].[Products]\nWHERE [NameEn] LIKE '%{{ $json.query }}%' \n   OR [NameAr] LIKE N'%{{ $json.query }}%'",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.microsoftSql",
+      "typeVersion": 1.1,
+      "position": [
+        240,
+        0
+      ],
+      "id": "6679b38b-2fc3-466a-8cae-fb30f9669e52",
+      "name": "Microsoft SQL",
+      "credentials": {
+        "microsoftSql": {
+          "id": "Y2AeIsKnxoe59Blj",
+          "name": "Microsoft SQL account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Microsoft SQL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "instanceId": "8b1e028e44daeb65f7dfb578f45f4539309ead1234e4a014a3ec9a64f64ba60f"
+  }
+}
