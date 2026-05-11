@@ -1,0 +1,62 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "f331e1cc-83ca-4b2f-9226-9cfc8a7104b0",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "6b74f142-0ae8-47c6-8743-f73106bd9cfc",
+      "name": "Webhook",
+      "webhookId": "f331e1cc-83ca-4b2f-9226-9cfc8a7104b0"
+    },
+    {
+      "parameters": {
+        "operation": "send",
+        "phoneNumberId": "=1055152217677345",
+        "recipientPhoneNumber": "=962{{ $json.body.phone.slice(1) }}",
+        "textBody": "={{ $json.body.message }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.whatsApp",
+      "typeVersion": 1.1,
+      "position": [
+        416,
+        0
+      ],
+      "id": "364ee5dd-1526-44e6-848c-e1209b1405ef",
+      "name": "Send message",
+      "webhookId": "f19f977d-5dd0-4f9d-a1f7-90a51b22ea98",
+      "credentials": {
+        "whatsAppApi": {
+          "id": "mmQIQOOP81mZKY78",
+          "name": "WhatsApp account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Send message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "8b1e028e44daeb65f7dfb578f45f4539309ead1234e4a014a3ec9a64f64ba60f"
+  }
+}
