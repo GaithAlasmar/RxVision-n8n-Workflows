@@ -1,0 +1,848 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "options": {
+          "temperature": 0
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -256,
+        176
+      ],
+      "id": "a38c8d52-9e10-4a64-a180-52f760176f1e",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "4NxvLUWIqrmjOmuP",
+          "name": "Google Gemini(PaLM) Api account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=# Role\nأنت صيدلاني مساعد محترف، ودود، وخبير تعمل في صيدلية.\n\nمهمتك هي مساعدة المرضى الذين يرسلون صوراً لوصفاتهم الطبية (روشتات) أو صوراً لعلب الأدوية.\n\n---\n\n# Instructions\n\nيجب عليك اتباع الخطوات التالية بدقة وبنفس الترتيب:\n\n## 1. رد السلام والترحيب\nابدأ رسالتك دائماً برد السلام والترحيب بأسلوب لطيف.\n\n---\n\n## 2. قراءة الوصفة الطبية (الصورة)\nاستخرج أسماء الأدوية بدقة من الصورة.\n\n---\n\n## 3. تحذير طبي هام\nإذا كانت غير واضحة:\n- لا تخمن\n- اطلب صورة أوضح\n\n---\n\n## 4. البحث في المخزون\nتحقق لكل دواء:\n- التوفر\n- السعر بالدينار الاردني\n- الكمية\n\n---\n\n## 5. البدائل\nإذا غير متوفر:\n- اقترح بديل بنفس المادة الفعالة ونفس التركيز\n\n---\n\n## 6. ⚠️ فحص تعارض الأدوية (إضافة جديدة)\nإذا احتوت الوصفة على أكثر من دواء:\n- تحقق إن كانت الأدوية لعلاجات مختلفة أو قد تتعارض\n- إذا كان هناك احتمال تعارض:\n  - نبه المستخدم بلطف\n  - واطلب التأكد من الطبيب أو الصيدلي\n\n---\n\n## 7. 💊 اقتراح أدوية (إضافة جديدة)\nإذا احتوت الصورة على:\n- وصف أعراض (مثل صداع، حرارة، ألم)\n\nقم باقتراح أدوية مناسبة شائعة وآمنة بدون وصفة  \nمع توضيح أنها استشارة مبدئية\n\n---\n\n## 8. صياغة الرد النهائي\n- اذكر الأدوية المقروءة\n- المتوفر + السعر\n- غير المتوفر + البدائل\n- التنبيهات (إن وجدت)\n\n---\n\n## ملاحظة\n- لا تذكر تفاصيل تقنية\n- كن مختصر وإنساني\n\n---\n\n# Input\n{{ $json.messages[0].image.url }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -128,
+        -96
+      ],
+      "id": "5350597d-3fec-4702-af01-1caadec796be",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {
+          "temperature": 0
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -32,
+        1152
+      ],
+      "id": "00a7b21a-24b3-49a8-a567-bd450840c355",
+      "name": "Google Gemini Chat Model1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "IIP6RUdfeLYGswBa",
+          "name": "HW1"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=# Role\nأنت صيدلاني مساعد محترف، ودود، وخبير تعمل في صيدلية.\n\n---\n\n# Instructions\n\n## 1. الترحيب\nابدأ برسالة لطيفة ✨\n\n---\n\n## 2. فهم الطلب\nاستخرج:\n- اسم الدواء\n- أو الأعراض\n\n---\n\n## 3. البحث\nتحقق من:\n- التوفر\n- السعر بالدينار الاردني\n\n---\n\n## 4. البدائل\nإذا غير متوفر:\n- اقترح بديل بنفس المادة الفعالة 🌿\n\n---\n\n## 5. 💊 اقتراح أدوية (إضافة)\nإذا المستخدم ذكر أعراض مثل:\n- صداع 🤕\n- ألم\n- حرارة\n\nاقترح أدوية مناسبة بدون وصفة  \nمع توضيح أنها استشارة مبدئية\n\n---\n\n## 6. ⚠️ تعارض الأدوية (إضافة)\nإذا المستخدم ذكر أكثر من دواء:\n- تحقق من التعارض\n- نبه المستخدم بلطف ⚠️\n\n---\n\n## 7. صياغة الرد\n\n### إذا متوفر:\n- اسم الدواء (Bold)\n- السعر\n\n### إذا غير متوفر:\n- اعتذار\n- بديل\n\n### إذا أعراض:\n- اقتراح أدوية\n\n---\n\n## ملاحظات\n- لا تذكر الكمية\n- لا تذكر تفاصيل تقنية\n\n---\n\n# Input\n{{ $json.messages[0].text.body }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        80,
+        880
+      ],
+      "id": "cea8e515-4a1a-4aa5-a6f6-f6d9a8a24de2",
+      "name": "AI Agent1"
+    },
+    {
+      "parameters": {
+        "options": {
+          "temperature": 0
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        400,
+        672
+      ],
+      "id": "9db66b94-0fcd-4e3b-b94d-177f338baedf",
+      "name": "Google Gemini Chat Model2",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "XNlylIBupFa9ZAmS",
+          "name": "n8n1"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=# Role\nأنت صيدلاني مساعد محترف، ودود، وخبير.\n\n---\n\n# Instructions\n\n## 1. فهم النص\nاستخرج اسم الدواء أو الأعراض من النص.\n\n---\n\n## 2. تحذير\nإذا غير واضح:\n- لا تخمن\n- اطلب إعادة التوضيح\n\n---\n\n## 3. البحث\nتحقق من:\n- التوفر\n- السعر بالدينار الاردني\n\n---\n\n## 4. البدائل\nإذا غير متوفر:\n- اقترح بديل بنفس المادة الفعالة\n\n---\n\n## 5. 💊 اقتراح أدوية (إضافة)\nإذا المستخدم وصف أعراض مثل:\n- صداع\n- ألم\n- حرارة\n\nاقترح أدوية مناسبة بدون وصفة\n\n---\n\n## 6. ⚠️ تعارض الأدوية (إضافة)\nإذا ذكر أكثر من دواء:\n- تحقق من احتمال التعارض\n- نبه المستخدم بشكل لطيف\n\n---\n\n## 7. الرد الصوتي\n\n- بدون رموز\n- بدون إيموجي\n- الأرقام بالحروف\n\n---\n\n## 8. طريقة الرد\n- ترحيب\n- نتيجة\n- بدائل أو اقتراحات\n- تنبيه إن وجد\n- ختام صحي\n\n---\n\n# Input\n{{ $json.text }}",
+        "options": {
+          "passthroughBinaryImages": true
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        512,
+        416
+      ],
+      "id": "a82bc1c9-97a3-46cb-bd28-8790a35e452b",
+      "name": "AI Agent2"
+    },
+    {
+      "parameters": {
+        "description": "استخدم هذه الأداة عندما يسأل العميل عن دواء معين. هذه الأداة ستبحث في قاعدة بيانات الصيدلية، وتخبرك ما إذا كان الدواء متوفراً، وكم سعره. يجب عليك تمرير اسم الدواء الذي ذكره العميل إلى هذه الأداة\nYou must pass the medicine name as a parameter named 'query' .",
+        "workflowId": {
+          "__rl": true,
+          "value": "bxw03rPVrhREh9u3",
+          "mode": "id",
+          "cachedResultUrl": "/workflow/bxw03rPVrhREh9u3"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "query": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('query', ``, 'string') }}"
+          },
+          "matchingColumns": [
+            "query"
+          ],
+          "schema": [
+            {
+              "id": "query",
+              "displayName": "query",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        128,
+        144
+      ],
+      "id": "c59f505f-faeb-4f12-b72b-d70bfffee07f",
+      "name": "search_medicine_database"
+    },
+    {
+      "parameters": {
+        "description": "استخدم هذه الأداة عندما يسأل العميل عن دواء معين. هذه الأداة ستبحث في قاعدة بيانات الصيدلية، وتخبرك ما إذا كان الدواء متوفراً، وكم سعره. يجب عليك تمرير اسم الدواء الذي ذكره العميل إلى هذه الأداة\nYou must pass the medicine name as a parameter named 'query' .",
+        "workflowId": {
+          "__rl": true,
+          "value": "bxw03rPVrhREh9u3",
+          "mode": "id",
+          "cachedResultUrl": "/workflow/bxw03rPVrhREh9u3"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "query": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('query', ``, 'string') }}"
+          },
+          "matchingColumns": [
+            "query"
+          ],
+          "schema": [
+            {
+              "id": "query",
+              "displayName": "query",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        784,
+        688
+      ],
+      "id": "5742c1fd-4c27-4380-b46c-f3ffd2596b65",
+      "name": "search_medicine_database1"
+    },
+    {
+      "parameters": {
+        "description": "استخدم هذه الأداة عندما يسأل العميل عن دواء معين. هذه الأداة ستبحث في قاعدة بيانات الصيدلية، وتخبرك ما إذا كان الدواء متوفراً، وكم سعره. يجب عليك تمرير اسم الدواء الذي ذكره العميل إلى هذه الأداة\nYou must pass the medicine name as a parameter named 'query' .",
+        "workflowId": {
+          "__rl": true,
+          "value": "bxw03rPVrhREh9u3",
+          "mode": "id",
+          "cachedResultUrl": "/workflow/bxw03rPVrhREh9u3"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "query": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('query', ``, 'string') }}"
+          },
+          "matchingColumns": [
+            "query"
+          ],
+          "schema": [
+            {
+              "id": "query",
+              "displayName": "query",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        368,
+        1152
+      ],
+      "id": "a6e008ff-1417-45ad-8e17-095675cd5def",
+      "name": "search_medicine_database2"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('Telegram Trigger2').item.json.message.from.id }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        -64,
+        160
+      ],
+      "id": "30b748c3-1a02-4af2-bbf9-d1bad2f5b7e7",
+      "name": "Simple Memory",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "resource": "speech",
+        "operation": "speechToText",
+        "additionalOptions": {},
+        "requestOptions": {}
+      },
+      "type": "@elevenlabs/n8n-nodes-elevenlabs.elevenLabs",
+      "typeVersion": 1,
+      "position": [
+        256,
+        416
+      ],
+      "id": "62fc5662-6086-46b6-afbb-d4877ec1fcb7",
+      "name": "Transcribe audio or video",
+      "credentials": {
+        "elevenLabsApi": {
+          "id": "PRQA2PmcFSNhfMRt",
+          "name": "osa"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "speech",
+        "voice": {
+          "__rl": true,
+          "value": "hpp4J3VqNfWAUOO0d1Us",
+          "mode": "list",
+          "cachedResultName": "Bella - Professional, Bright, Warm"
+        },
+        "text": "={{ $json.output }}",
+        "additionalOptions": {
+          "model": {
+            "mode": "list",
+            "value": "eleven_multilingual_v2"
+          }
+        },
+        "requestOptions": {}
+      },
+      "type": "@elevenlabs/n8n-nodes-elevenlabs.elevenLabs",
+      "typeVersion": 1,
+      "position": [
+        864,
+        416
+      ],
+      "id": "44bc85e6-b814-4a8d-a06f-cb39b0251be7",
+      "name": "Convert text to speech",
+      "credentials": {
+        "elevenLabsApi": {
+          "id": "PRQA2PmcFSNhfMRt",
+          "name": "osa"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "56771d3c-5171-4a15-9ac0-461d2aab6324",
+              "leftValue": "={{ $json.messages[0].type }}",
+              "rightValue": "image",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -976,
+        416
+      ],
+      "id": "c880eff3-8796-46c8-a786-cd17b3a71105",
+      "name": "If2"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "1d274fcc-87e1-4a50-becf-b6018818e909",
+              "leftValue": "={{ $json.messages[0].type }}",
+              "rightValue": "text",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -672,
+        576
+      ],
+      "id": "ead16d4c-fa79-42d1-9c98-070ae35bb29c",
+      "name": "If3"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('Telegram Trigger2').item.json.message.from.id }}",
+        "contextWindowLength": "=5"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        592,
+        704
+      ],
+      "id": "5a69e0f4-609d-4fa2-9929-dd976936c3eb",
+      "name": "Simple Memory1",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $json.message.from.id }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        176,
+        1184
+      ],
+      "id": "35f4f830-72e0-4bc0-97c5-0b296defba62",
+      "name": "Simple Memory2",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "updates": [
+          "messages"
+        ],
+        "options": {}
+      },
+      "type": "n8n-nodes-base.whatsAppTrigger",
+      "typeVersion": 1,
+      "position": [
+        -1200,
+        416
+      ],
+      "id": "7105c48c-2f83-4c4a-89b1-1cc78852ef61",
+      "name": "WhatsApp Trigger",
+      "webhookId": "b8615b82-3b11-4a40-bdac-9268a7dc3ba1",
+      "credentials": {
+        "whatsAppTriggerApi": {
+          "id": "vYVJhffdBDEriWN6",
+          "name": "WhatsApp OAuth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "send",
+        "phoneNumberId": "1055152217677345",
+        "recipientPhoneNumber": "+962790765368",
+        "textBody": "= {{ $json.output }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.whatsApp",
+      "typeVersion": 1.1,
+      "position": [
+        464,
+        16
+      ],
+      "id": "16bfa276-b1bf-4246-b71e-5a3186794ed0",
+      "name": "Send message",
+      "webhookId": "ce980f03-3c99-4049-81c0-b82db01f7b1a",
+      "credentials": {
+        "whatsAppApi": {
+          "id": "efKkehaiAqWU7jR8",
+          "name": "WhatsApp account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "send",
+        "phoneNumberId": "1055152217677345",
+        "recipientPhoneNumber": "+962790765368",
+        "textBody": "={{ $json.output }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.whatsApp",
+      "typeVersion": 1.1,
+      "position": [
+        560,
+        896
+      ],
+      "id": "1fbd754a-c189-4c2f-a810-f03a475f2c99",
+      "name": "Send message1",
+      "webhookId": "ce980f03-3c99-4049-81c0-b82db01f7b1a",
+      "credentials": {
+        "whatsAppApi": {
+          "id": "efKkehaiAqWU7jR8",
+          "name": "WhatsApp account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "media",
+        "operation": "mediaUrlGet",
+        "mediaGetId": "={{ $json.messages[0].audio.id }}"
+      },
+      "type": "n8n-nodes-base.whatsApp",
+      "typeVersion": 1.1,
+      "position": [
+        -304,
+        416
+      ],
+      "id": "53e6c2b1-7f53-44b5-aab9-7bed6d60a38a",
+      "name": "Download media",
+      "webhookId": "d44b24e1-0177-4e6b-a703-b26f3e95b2b4",
+      "credentials": {
+        "whatsAppApi": {
+          "id": "efKkehaiAqWU7jR8",
+          "name": "WhatsApp account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.url }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "whatsAppApi",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        0,
+        416
+      ],
+      "id": "32427e76-65ec-499f-b435-0c85f319291b",
+      "name": "HTTP Request",
+      "credentials": {
+        "whatsAppApi": {
+          "id": "efKkehaiAqWU7jR8",
+          "name": "WhatsApp account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "for (const item of $input.all()) {\n  if (item.binary && item.binary.data) {\n    item.binary.data.mimeType = 'audio/mpeg';\n  }\n}\nreturn $input.all();"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1072,
+        416
+      ],
+      "id": "2ffab0ab-a521-465a-aab5-463f7be0bf95",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "operation": "send",
+        "phoneNumberId": "1055152217677345",
+        "recipientPhoneNumber": "=+{{ $('WhatsApp Trigger').item.json.messages[0].from }}",
+        "messageType": "audio",
+        "mediaPath": "useMediaId",
+        "mediaId": "={{ $json.id }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.whatsApp",
+      "typeVersion": 1.1,
+      "position": [
+        1472,
+        416
+      ],
+      "id": "aeba8116-c9c4-4ef6-b5e5-cfa91a17241f",
+      "name": "Send message2",
+      "webhookId": "ce980f03-3c99-4049-81c0-b82db01f7b1a",
+      "credentials": {
+        "whatsAppApi": {
+          "id": "efKkehaiAqWU7jR8",
+          "name": "WhatsApp account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "media",
+        "phoneNumberId": "1055152217677345",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.whatsApp",
+      "typeVersion": 1.1,
+      "position": [
+        1280,
+        416
+      ],
+      "id": "564376eb-54b8-4ed9-bda5-61395d47f97c",
+      "name": "Upload media",
+      "webhookId": "c2e82d25-ef41-4cb9-9bec-5d8b920691ad",
+      "credentials": {
+        "whatsAppApi": {
+          "id": "efKkehaiAqWU7jR8",
+          "name": "WhatsApp account 2"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Send message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent1": {
+      "main": [
+        [
+          {
+            "node": "Send message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent2",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent2": {
+      "main": [
+        [
+          {
+            "node": "Convert text to speech",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "search_medicine_database": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "search_medicine_database1": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent2",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "search_medicine_database2": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Transcribe audio or video": {
+      "main": [
+        [
+          {
+            "node": "AI Agent2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert text to speech": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If2": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "If3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If3": {
+      "main": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Download media",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory1": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent2",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory2": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "WhatsApp Trigger": {
+      "main": [
+        [
+          {
+            "node": "If2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download media": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Transcribe audio or video",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Upload media",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send message2": {
+      "main": [
+        []
+      ]
+    },
+    "Upload media": {
+      "main": [
+        [
+          {
+            "node": "Send message2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "8b1e028e44daeb65f7dfb578f45f4539309ead1234e4a014a3ec9a64f64ba60f"
+  }
+}
