@@ -1,0 +1,555 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "7999314d-5cb0-4ace-879c-2073b9873959",
+        "responseMode": "responseNode",
+        "options": {
+          "allowedOrigins": "*"
+        }
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -2784,
+        -192
+      ],
+      "id": "476e978e-6f8a-439a-95e0-83789adcebab",
+      "name": "Webhook",
+      "webhookId": "7999314d-5cb0-4ace-879c-2073b9873959"
+    },
+    {
+      "parameters": {
+        "options": {
+          "temperature": 0
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -1872,
+        -688
+      ],
+      "id": "40c1022f-7b40-46be-af6a-44be92a081d7",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "b8oGJbCAl7pw91Fv",
+          "name": "vv4"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=مرفق صورة لوصفة طبية أو علبة دواء. اقرأ اسم الدواء المكتوب فيها بدقة عالية جداً، ثم ابحث عنه في النظام وأعطني النتيجة",
+        "options": {
+          "systemMessage": "# Role\nأنت صيدلاني مساعد محترف، ودود، وخبير تعمل في صيدلية.\n\nمهمتك هي مساعدة المرضى الذين يرسلون صوراً لوصفات طبية أو علب أدوية عبر الموقع.\n\n---\n\n# Instructions\n\n## 1. الترحيب\nابدأ دائماً برد لطيف:\n\"أهلاً بك، نتمنى لك دوام الصحة والعافية\"\n\n---\n\n## 2. قراءة الصورة\n- افحص الصورة بعناية\n- استخرج أسماء الأدوية\n- حاول القراءة بأقصى دقة ممكنة\n\n\n\n\n---\n\n## 4. توضيح دواعي الاستعمال\nلكل دواء:\n- اذكر استخدامه بشكل بسيط\n(مثل: مسكن ألم، مضاد حيوي)\n\n---\n\n## 5. البحث في النظام\n\n### Tool:\nsearch_medicine_database\n\nتحقق من:\n- التوفر\n- السعر بالدينار الاردني\n- الكمية\n\n---\n\n## 6. البدائل\nإذا غير متوفر:\n- اقترح بديل بنفس المادة الفعالة والتركيز\n\n---\n\n## 7. 💊 اقتراح أدوية (إضافة)\nإذا ظهر في الصورة:\n- أعراض (صداع، حرارة، ألم)\n\nاقترح أدوية مناسبة بدون وصفة  \nمع توضيح أنها استشارة مبدئية\n\n---\n\n## 8. ⚠️ تعارض الأدوية (إضافة)\nإذا يوجد أكثر من دواء:\n- تحقق من احتمالية التعارض\n- نبه المستخدم بلطف\n\n---\n\n## 9. صياغة الرد\n\n- اذكر الأدوية + استخداماتها\n- المتوفر + السعر\n- غير المتوفر + البدائل\n- أضف تنبيه طبي\n\n---\n\n## 10. الخاتمة\n\"يُنصح دائماً بالالتزام بتعليمات الطبيب المتابع لحالتك\"\n\n---\n\n## Rules\n- لا تذكر تفاصيل تقنية\n- لا تذكر أرقام معقدة\n- رد مختصر وواضح\n\n---\n",
+          "passthroughBinaryImages": true
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -1760,
+        -960
+      ],
+      "id": "a4a28c18-5e77-45cb-9e37-ae7c21631a93",
+      "name": "AI Agent",
+      "retryOnFail": true
+    },
+    {
+      "parameters": {
+        "options": {
+          "temperature": 0
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -1856,
+        480
+      ],
+      "id": "570d1343-680a-425c-8edf-00ecd67ab54b",
+      "name": "Google Gemini Chat Model2",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "PKVMIXHH6j5sRWrq",
+          "name": "Pro"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=# Role\nأنت صيدلاني مساعد محترف، ودود، وخبير تعمل في صيدلية.\n\nالعميل يتواصل عبر الشات في الموقع.\n\n---\n\n# Instructions\n\n## 1. الترحيب\nابدأ برسالة لطيفة:\n\"أهلاً بك، نتمنى لك دوام الصحة والعافية ✨\"\n\n---\n\n## 2. فهم الطلب\n- استخرج اسم الدواء أو الأعراض\n- صحح الأخطاء الإملائية\n- عربي أو إنجليزي كلاهما مقبول\n\nإذا غير واضح:\n- اطلب توضيح أو صورة 💊\n\n---\n\n## 3. البحث في النظام\n\n### Tool:\nsearch_medicine_database\n\nتحقق من:\n- التوفر\n- السعر بالدينار الاردني\n\n---\n\n## 4. البدائل\nإذا غير متوفر:\n- اقترح بديل بنفس المادة الفعالة 🌿\n\n---\n\n## 5. 💊 اقتراح أدوية\nإذا المستخدم وصف:\n- صداع\n- ألم\n- حرارة\n\nاقترح أدوية مناسبة بدون وصفة  \nمع توضيح أنها استشارة مبدئية\n\n---\n\n## 6. ⚠️ تعارض الأدوية\nإذا ذكر أكثر من دواء:\n- نبه المستخدم لاحتمال التعارض ⚠️\n\n---\n\n## 7. صياغة الرد\n\n### استخدم:\n- إيموجي بشكل معتدل 💊✨\n- Bold لاسم الدواء والسعر\n\n---\n\n### إذا متوفر:\n- تأكيد التوفر\n- السعر\n- عرض المساعدة\n\n---\n\n### إذا غير متوفر:\n- اعتذار\n- بديل + سعر\n- توضيح نفس الفعالية\n\n---\n\n## 8. الخلاصة\n- لا تذكر الكمية\n- لا تذكر تفاصيل تقنية\n- إجابة واضحة وسريعة\n\n---\n\n# Input\n{{ $json.body.chatInput }}",
+        "options": {
+          "passthroughBinaryImages": "={{ true }}"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -1744,
+        240
+      ],
+      "id": "0c7ddfcb-def9-4022-898f-7828bd33fa31",
+      "name": "AI Agent2"
+    },
+    {
+      "parameters": {
+        "description": "استخدم هذه الأداة عندما يسأل العميل عن دواء معين. هذه الأداة ستبحث في قاعدة بيانات الصيدلية، وتخبرك ما إذا كان الدواء متوفراً، وكم سعره. يجب عليك تمرير اسم الدواء الذي ذكره العميل إلى هذه الأداة\nYou must pass the medicine name as a parameter named 'query' .",
+        "workflowId": {
+          "__rl": true,
+          "value": "bxw03rPVrhREh9u3",
+          "mode": "id",
+          "cachedResultUrl": "/workflow/bxw03rPVrhREh9u3"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "query": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('query', ``, 'string') }}"
+          },
+          "matchingColumns": [
+            "query"
+          ],
+          "schema": [
+            {
+              "id": "query",
+              "displayName": "query",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        -1504,
+        -720
+      ],
+      "id": "830e58d8-312e-4889-aa18-13a702afab3b",
+      "name": "search_medicine_database"
+    },
+    {
+      "parameters": {
+        "description": "استخدم هذه الأداة عندما يسأل العميل عن دواء معين. هذه الأداة ستبحث في قاعدة بيانات الصيدلية، وتخبرك ما إذا كان الدواء متوفراً، وكم سعره. يجب عليك تمرير اسم الدواء الذي ذكره العميل إلى هذه الأداة\nYou must pass the medicine name as a parameter named 'query' .",
+        "workflowId": {
+          "__rl": true,
+          "value": "bxw03rPVrhREh9u3",
+          "mode": "id",
+          "cachedResultUrl": "/workflow/bxw03rPVrhREh9u3"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "query": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('query', ``, 'string') }}"
+          },
+          "matchingColumns": [
+            "query"
+          ],
+          "schema": [
+            {
+              "id": "query",
+              "displayName": "query",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        -1472,
+        496
+      ],
+      "id": "e9c28907-08ca-4173-b77f-ab3b7399294e",
+      "name": "search_medicine_database1"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "56771d3c-5171-4a15-9ac0-461d2aab6324",
+              "leftValue": "={{ $json.body.imageBase64 }}",
+              "rightValue": "imageMessage",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -2480,
+        -640
+      ],
+      "id": "69ef7494-4a99-4ff1-8e07-d5f418ed29b9",
+      "name": "If2"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        -1392,
+        -960
+      ],
+      "id": "e8f8b194-5609-4035-9f0a-1dddc25fde93",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        -1376,
+        224
+      ],
+      "id": "27e5f320-d5ff-490e-949e-7e73b5b7139b",
+      "name": "Respond to Webhook1"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "666dfbff-e100-4bf8-8ba1-e8299c2352a4",
+              "leftValue": "={{ !$json.body.audioBase64 }}",
+              "rightValue": "0",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -2448,
+        -112
+      ],
+      "id": "90365914-b43a-4787-9aa1-f8ea88418948",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "options": {
+          "temperature": 0
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -1808,
+        -64
+      ],
+      "id": "0f06a578-2ffc-4676-a8be-a1506814ff16",
+      "name": "Google Gemini Chat Model3",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "PKVMIXHH6j5sRWrq",
+          "name": "Pro"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=# Role\nأنت صيدلاني مساعد محترف، ودود، وخبير.\n\nالعميل أرسل رسالة صوتية، وسيتم تحويل ردك إلى صوت.\n\n---\n\n# Instructions\n\n## 1. تحليل الطلب\n- استخرج اسم الدواء أو الأعراض\n- صحح الأخطاء الناتجة عن التحويل الصوتي\n\n---\n\n## 2. تحذير أمان\nإذا غير واضح:\n- لا تخمن\n- اطلب إعادة التوضيح أو صورة\n\n---\n\n## 3. البحث\n\n### Tool:\nsearch_medicine_database\n\nتحقق من:\n- التوفر\n- السعر بالدينار الاردني\n\n---\n\n## 4. البدائل\nإذا غير متوفر:\n- اقترح بديل بنفس المادة الفعالة\n\n---\n\n## 5. 💊 اقتراح أدوية\nإذا المستخدم وصف أعراض:\n- اقترح علاج مناسب بدون وصفة\n\n---\n\n## 6. ⚠️ تعارض الأدوية\nإذا ذكر أكثر من دواء:\n- نبه المستخدم لاحتمال التعارض\n\n---\n\n## 7. صياغة الرد الصوتي (مهم جداً)\n\n### ممنوع:\n- أي رموز\n- أي إيموجي\n- أي تنسيق\n\n### يجب:\n- كتابة الأرقام بالحروف\n- استخدام فواصل ونقاط\n\n---\n\n## 8. طريقة الرد\n\n- ترحيب\n- النتيجة\n- البدائل أو الاقتراحات\n- التنبيه\n- ختام صحي\n\n---\n\n# Input\n{{ $json.body.audioBase64 }}",
+        "options": {
+          "passthroughBinaryImages": true
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        -1648,
+        -304
+      ],
+      "id": "7e682a15-495c-43c8-bd1d-d64d1cc6639c",
+      "name": "AI Agent3"
+    },
+    {
+      "parameters": {
+        "description": "استخدم هذه الأداة عندما يسأل العميل عن دواء معين. هذه الأداة ستبحث في قاعدة بيانات الصيدلية، وتخبرك ما إذا كان الدواء متوفراً، وكم سعره. يجب عليك تمرير اسم الدواء الذي ذكره العميل إلى هذه الأداة\nYou must pass the medicine name as a parameter named 'query' .",
+        "workflowId": {
+          "__rl": true,
+          "value": "bxw03rPVrhREh9u3",
+          "mode": "id",
+          "cachedResultUrl": "/workflow/bxw03rPVrhREh9u3"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "query": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('query', ``, 'string') }}"
+          },
+          "matchingColumns": [
+            "query"
+          ],
+          "schema": [
+            {
+              "id": "query",
+              "displayName": "query",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        -1376,
+        -32
+      ],
+      "id": "b678ea23-3729-44aa-8496-b4178aecee01",
+      "name": "search_medicine_database2"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        -1232,
+        -304
+      ],
+      "id": "74a22575-5049-4f1d-bfa4-df73de905b6d",
+      "name": "Respond to Webhook2"
+    },
+    {
+      "parameters": {
+        "operation": "toBinary",
+        "sourceProperty": "body.imageBase64",
+        "options": {
+          "mimeType": "image/png"
+        }
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        -2112,
+        -752
+      ],
+      "id": "c89ebc53-b8a2-4279-83a5-2e29976a30c7",
+      "name": "Convert to File",
+      "alwaysOutputData": false
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "If2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent2",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent2": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "search_medicine_database": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "search_medicine_database1": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent2",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If2": {
+      "main": [
+        [
+          {
+            "node": "Convert to File",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "AI Agent2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "AI Agent3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model3": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent3",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent3": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "search_medicine_database2": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent3",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "8b1e028e44daeb65f7dfb578f45f4539309ead1234e4a014a3ec9a64f64ba60f"
+  }
+}
